@@ -1,0 +1,34 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven{
+            url "https://raw.githubusercontent.com/paolovsrl/mvn-repo/omsi"
+            credentials {
+                username = getSecretKeys()['USERNAME']
+                password = getSecretKeys()['TOKEN']
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+}
+rootProject.name = "Compose Template"
+include ':app'
+
+
+def getSecretKeys(){
+    def keyFile = file("app/data.properties")
+    def secretKeys = new Properties()
+    secretKeys.load(new FileInputStream(keyFile))
+    return secretKeys
+}
