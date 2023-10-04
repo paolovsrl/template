@@ -27,7 +27,7 @@ include ':app'
 
 
 def getSecretKeys(){
-    def keyFile = file("app/data.properties")
+    def keyFile = file("D:\\\\AndroidStudioProjects\\\\SIGNING\\\\data.properties")
     def secretKeys = new Properties()
     secretKeys.load(new FileInputStream(keyFile))
     return secretKeys
