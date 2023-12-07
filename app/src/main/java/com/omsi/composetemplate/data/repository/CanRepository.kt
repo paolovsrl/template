@@ -2,7 +2,7 @@ package com.omsi.composetemplate.data.repository
 
 import android.content.Context
 import android.os.Build
-import com.omsi.cpdevicelib.Tools
+import com.omsi.cpdevicelib.Utils
 import com.omsi.cpdevicelib.can.BAMPacket
 import com.omsi.cpdevicelib.can.CANManager
 import com.omsi.cpdevicelib.can.CANPacket
@@ -18,7 +18,7 @@ class CanRepository @Inject constructor(
 
 
     fun initRepo(activity: Context, onReceived: (packet: CANPacket)->Unit):Boolean{
-        if(Tools.isDeviceSupported(Build.MODEL)) {
+        if(Utils.isDeviceSupported(Build.MODEL)) {
             canManager.initializeCanInterface(activity)
             val canListener = object: CanListener {
                 override fun OnStatusChange(p0: Boolean?) {
