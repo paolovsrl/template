@@ -10,6 +10,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {url "https://raw.githubusercontent.com/paolovsrl/mvn-repo-public/release"}
         maven{
             url "https://raw.githubusercontent.com/paolovsrl/mvn-repo/omsi"
             credentials {

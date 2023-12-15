@@ -96,6 +96,8 @@ dependencies {
     //Apollos libs
     implementation 'com.omsi.lib:terminal-tablet:1.0.21'
 
+    implementation 'com.android.lib:custom-tone-maker:1.0'
+
     //Dependency Injection Lib:
     implementation "com.google.dagger:hilt-android:2.48"
     kapt "com.google.dagger:hilt-compiler:2.45"

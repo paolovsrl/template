@@ -5,16 +5,20 @@ import android.content.Context.AUDIO_SERVICE
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
+import android.util.Log
 import com.omsi.composetemplate.R
+import com.omsi.tonegenerator.CustomToneGenerator
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AudioRepository @Inject constructor(@ApplicationContext context:Context){
+class AudioRepository @Inject constructor(@ApplicationContext val context:Context){
 
     private var mediaPlayer: MediaPlayer
     private var audioManager:AudioManager
+    public var isPlaying = false
+    var toneGenerator = CustomToneGenerator
 
     init {
         val audioAttributes =  AudioAttributes.Builder()
@@ -29,23 +33,42 @@ class AudioRepository @Inject constructor(@ApplicationContext context:Context){
             }
 
         audioManager= context.getSystemService(AUDIO_SERVICE) as AudioManager
+
     }
 
 
     fun play(){
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),0)
-        mediaPlayer.start()
+        if(!isPlaying && !mediaPlayer.isPlaying) {
+            audioManager.setStreamVolume(
+                AudioManager.STREAM_MUSIC,
+                audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 3,
+                0
+            )
+            //mediaPlayer.start()
+            toneGenerator.startAudioStreamNative()
+            isPlaying = true
+        }
     }
 
 
     fun pause(){
-        mediaPlayer.pause()
+        if(isPlaying) {
+            //mediaPlayer.pause()
+            toneGenerator.stopAudioStreamNative()
+            isPlaying = false
+        }
     }
 
 
     fun stop(){
-        mediaPlayer.stop()
-        mediaPlayer.release()
+        try {
+            // mediaPlayer.stop()
+            // mediaPlayer.release()
+            toneGenerator.stopAudioStreamNative()
+        }catch (error:Error){
+            Log.e("AudioRepository", "Can't stop MediaPlayer: "+error.message)
+        }
+
     }
 
 
